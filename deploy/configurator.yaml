@@ -98,8 +98,8 @@ spec:
       serviceAccountName: virtual-kubelet
       containers:
         - name: configurator
-          image: cloud.sylabs.io/library/slurm/configurator:latest
-          imagePullPolicy: Always
+          image: dptechnology/hpc/configurator:latest
+          imagePullPolicy: IfNotPresent
           args:
             - --sock
             - "/syslurm/red-box.sock"
@@ -116,9 +116,9 @@ spec:
                 fieldRef:
                   fieldPath: spec.serviceAccountName
             - name: KUBELET_IMAGE
-              value: "cloud.sylabs.io/library/slurm/vk:latest"
+              value: "dptechnology/hpc/vk:latest"
             - name: RESULTS_IMAGE
-              value: "cloud.sylabs.io/library/slurm/results:latest"
+              value: "dptechnology/hpc/results:latest"
       volumes:
         - name: syslurm-mount
           hostPath:

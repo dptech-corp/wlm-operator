@@ -15,8 +15,8 @@ spec:
       serviceAccountName: wlm-operator
       containers:
         - name: wlm-operator
-          image: cloud.sylabs.io/library/slurm/operator:latest
-          imagePullPolicy: Always
+          image: dptechnology/hpc/operator:latest
+          imagePullPolicy: IfNotPresent
           env:
             - name: WATCH_NAMESPACE
               valueFrom:

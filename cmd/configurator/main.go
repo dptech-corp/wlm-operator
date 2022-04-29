@@ -23,6 +23,7 @@ import (
 	"os/signal"
 	"sync"
 	"time"
+	"strings"
 
 	"github.com/pkg/errors"
 	"github.com/sylabs/wlm-operator/pkg/workload/api"
@@ -179,7 +180,7 @@ func virtualKubeletPodTemplate(partitionName, nodeName string) *v1.Pod {
 				{
 					Name:            "vk",
 					Image:           kubeletImage,
-					ImagePullPolicy: v1.PullAlways,
+					ImagePullPolicy: v1.PullIfNotPresent,
 					Args: []string{
 						"--nodename",
 						partitionNodeName(partitionName, nodeName),
@@ -342,5 +343,5 @@ func contains(s []string, e string) bool {
 
 // partitionNodeName forms partition name that will be used as pod and node name in k8s
 func partitionNodeName(partition, node string) string {
-	return fmt.Sprintf("slurm-%s-%s", node, partition)
+	return fmt.Sprintf("slurm-%s-%s", node, strings.ToLower(partition))
 }

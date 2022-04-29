@@ -1,0 +1,11 @@
+apiVersion: wlm.sylabs.io/v1alpha1
+kind: SlurmJob
+metadata:
+  name: hello
+spec:
+  batch: |
+    #!/bin/sh
+    #SBATCH --nodes=1
+    echo "Hello"
+  nodeSelector:
+    kubernetes.io/hostname: slurm-minikube-cpu
