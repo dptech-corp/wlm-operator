@@ -98,7 +98,7 @@ spec:
       serviceAccountName: virtual-kubelet
       containers:
         - name: configurator
-          image: dptechnology/hpc/configurator:latest
+          image: dptechnology/hpc-configurator:latest
           imagePullPolicy: IfNotPresent
           args:
             - --sock
@@ -116,9 +116,9 @@ spec:
                 fieldRef:
                   fieldPath: spec.serviceAccountName
             - name: KUBELET_IMAGE
-              value: "dptechnology/hpc/vk:latest"
+              value: "dptechnology/hpc-vk:latest"
             - name: RESULTS_IMAGE
-              value: "dptechnology/hpc/results:latest"
+              value: "dptechnology/hpc-results:latest"
       volumes:
         - name: syslurm-mount
           hostPath:

@@ -15,7 +15,7 @@ spec:
       serviceAccountName: wlm-operator
       containers:
         - name: wlm-operator
-          image: dptechnology/hpc/operator:latest
+          image: dptechnology/hpc-operator:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: WATCH_NAMESPACE
