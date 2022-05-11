@@ -238,6 +238,57 @@ func (s *Slurm) TailFile(req api.WorkloadManager_TailFileServer) error {
 	}
 }
 
+// CreateFile write chunks with bytes to requested file.
+func (s *Slurm) CreateFile(req api.WorkloadManager_CreateFileServer) error {
+	r, err := req.Recv()
+	if err != nil {
+		return errors.Wrap(err, "could not receive request")
+	}
+	fd, err := s.client.Create(r.Path)
+	if err != nil {
+		return errors.Wrapf(err, "could not open file at %s", r.Path)
+	}
+	defer fd.Close()
+
+	for {
+		r, err := req.Recv()
+
+		if r != nil && r.Content != nil {
+			if _, err := fd.Write(r.Content); err != nil {
+				log.Fatalf("can't write to file err: %s", err)
+			}
+		}
+
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			return err
+		}
+	}
+
+	err = req.SendAndClose(&api.CreateFileResponse{})
+	return nil
+}
+
+// Zip file or directory
+func (s *Slurm) Zip(ctx context.Context, req *api.ZipRequest) (*api.ZipResponse, error) {
+	if err := s.client.Zip(req.Path, req.Target); err != nil {
+		return nil, errors.Wrapf(err, "could not zip")
+	}
+
+	return &api.ZipResponse{}, nil
+}
+
+// Unzip file
+func (s *Slurm) Unzip(ctx context.Context, req *api.UnzipRequest) (*api.UnzipResponse, error) {
+	if err := s.client.Unzip(req.Source, req.Path); err != nil {
+		return nil, errors.Wrapf(err, "could not unzip")
+	}
+
+	return &api.UnzipResponse{}, nil
+}
+
 // Resources return available resources on slurm cluster in a requested partition.
 func (s *Slurm) Resources(_ context.Context, req *api.ResourcesRequest) (*api.ResourcesResponse, error) {
 	slurmResources, err := s.client.Resources(req.Partition)

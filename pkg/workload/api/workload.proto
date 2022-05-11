@@ -41,6 +41,13 @@ service WorkloadManager {
     // OpenFile this call will watch file content changes and stream
     // new chunks continuously.
     rpc TailFile (stream TailFileRequest) returns (stream Chunk);
+    // CreateFile opens a file and write streams in it. May be
+    // useful for data transfer.
+    rpc CreateFile (stream CreateFileRequest) returns (CreateFileResponse);
+    // Zip file or directory
+    rpc Zip (ZipRequest) returns (ZipResponse);
+    // Unzip file
+    rpc Unzip (UnzipRequest) returns (UnzipResponse);
     // Resources returns partition resources
     // nodes, cpu, mem, wall-time and available features
     rpc Resources (ResourcesRequest) returns (ResourcesResponse);
@@ -97,6 +104,15 @@ message JobStepsResponse {
 message OpenFileRequest {
     // Path to file to open.
     string path = 1;
+}
+
+message CreateFileRequest {
+    // Path to file to open.
+    string path = 1;
+    bytes content = 2;
+}
+
+message CreateFileResponse {
 }
 
 message ResourcesRequest {
@@ -179,6 +195,22 @@ message TailFileRequest {
     TailAction action = 1;
     // Path to file to tail.
     string path = 2;
+}
+
+message ZipRequest {
+    string path = 1;
+    string target = 2;
+}
+
+message ZipResponse {
+}
+
+message UnzipRequest {
+    string source = 1;
+    string path = 2;
+}
+
+message UnzipResponse {
 }
 
 enum JobStatus {
