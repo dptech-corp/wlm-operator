@@ -37,6 +37,11 @@ type SlurmJobSpec struct {
 	// More info: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/.
 	NodeSelector map[string]string `json:"nodeSelector,omitempty"`
 
+	// Prepare may be specified for an optional data preparation step.
+	// When specified, before job is started required data will be uploaded to Slurm
+	// cluster with respect to this configuration.
+	Prepare *PrepareData `json:"prepare,omitempty"`
+
 	// Results may be specified for an optional results collection step.
 	// When specified, after job is completed all results will be downloaded from Slurm
 	// cluster with respect to this configuration.

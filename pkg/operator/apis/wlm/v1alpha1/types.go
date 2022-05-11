@@ -16,6 +16,16 @@ package v1alpha1
 
 import v1 "k8s.io/api/core/v1"
 
+// PrepareData is a schema for data preparation.
+// +k8s:openapi-gen=true
+type PrepareData struct {
+	// Mount is a directory where input data will be given.
+	Mount v1.Volume `json:"mount"`
+
+	// To is a path to the data to be uploaded to a Slurm cluster.
+	To string `json:"to"`
+}
+
 // JobResults is a schema for results collection.
 // +k8s:openapi-gen=true
 type JobResults struct {
