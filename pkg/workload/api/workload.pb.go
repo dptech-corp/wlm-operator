@@ -8,8 +8,8 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	duration "github.com/golang/protobuf/ptypes/duration"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	math "math"
 )
 
@@ -1276,13 +1276,13 @@ type JobInfo struct {
 	// Job current status.
 	Status JobStatus `protobuf:"varint,5,opt,name=status,proto3,enum=api.JobStatus" json:"status,omitempty"`
 	// Job submit time.
-	SubmitTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=submit_time,json=submitTime,proto3" json:"submit_time,omitempty"`
+	SubmitTime *timestamp.Timestamp `protobuf:"bytes,6,opt,name=submit_time,json=submitTime,proto3" json:"submit_time,omitempty"`
 	// Job start time.
-	StartTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	StartTime *timestamp.Timestamp `protobuf:"bytes,7,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	// Job running time.
-	RunTime *durationpb.Duration `protobuf:"bytes,8,opt,name=run_time,json=runTime,proto3" json:"run_time,omitempty"`
+	RunTime *duration.Duration `protobuf:"bytes,8,opt,name=run_time,json=runTime,proto3" json:"run_time,omitempty"`
 	// Job time limit.
-	TimeLimit *durationpb.Duration `protobuf:"bytes,9,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`
+	TimeLimit *duration.Duration `protobuf:"bytes,9,opt,name=time_limit,json=timeLimit,proto3" json:"time_limit,omitempty"`
 	// Job working directory.
 	WorkingDir string `protobuf:"bytes,10,opt,name=working_dir,json=workingDir,proto3" json:"working_dir,omitempty"`
 	// Path to job's standard output file.
@@ -1364,28 +1364,28 @@ func (m *JobInfo) GetStatus() JobStatus {
 	return JobStatus_COMPLETED
 }
 
-func (m *JobInfo) GetSubmitTime() *timestamppb.Timestamp {
+func (m *JobInfo) GetSubmitTime() *timestamp.Timestamp {
 	if m != nil {
 		return m.SubmitTime
 	}
 	return nil
 }
 
-func (m *JobInfo) GetStartTime() *timestamppb.Timestamp {
+func (m *JobInfo) GetStartTime() *timestamp.Timestamp {
 	if m != nil {
 		return m.StartTime
 	}
 	return nil
 }
 
-func (m *JobInfo) GetRunTime() *durationpb.Duration {
+func (m *JobInfo) GetRunTime() *duration.Duration {
 	if m != nil {
 		return m.RunTime
 	}
 	return nil
 }
 
-func (m *JobInfo) GetTimeLimit() *durationpb.Duration {
+func (m *JobInfo) GetTimeLimit() *duration.Duration {
 	if m != nil {
 		return m.TimeLimit
 	}
@@ -1459,9 +1459,9 @@ type JobStepInfo struct {
 	// Job step current status.
 	Status JobStatus `protobuf:"varint,4,opt,name=status,proto3,enum=api.JobStatus" json:"status,omitempty"`
 	// Job step start time.
-	StartTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	StartTime *timestamp.Timestamp `protobuf:"bytes,5,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	// Job step end time.
-	EndTime              *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	EndTime              *timestamp.Timestamp `protobuf:"bytes,6,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}               `json:"-"`
 	XXX_unrecognized     []byte                 `json:"-"`
 	XXX_sizecache        int32                  `json:"-"`
@@ -1520,14 +1520,14 @@ func (m *JobStepInfo) GetStatus() JobStatus {
 	return JobStatus_COMPLETED
 }
 
-func (m *JobStepInfo) GetStartTime() *timestamppb.Timestamp {
+func (m *JobStepInfo) GetStartTime() *timestamp.Timestamp {
 	if m != nil {
 		return m.StartTime
 	}
 	return nil
 }
 
-func (m *JobStepInfo) GetEndTime() *timestamppb.Timestamp {
+func (m *JobStepInfo) GetEndTime() *timestamp.Timestamp {
 	if m != nil {
 		return m.EndTime
 	}

@@ -157,7 +157,7 @@ func main() {
 			}
 		}
 
-		err = unzip(filePath, ".")
+		err = unzip(filePath, *to)
 		if err != nil {
 			log.Fatalf("can't unzip local file err: %s", err)
 		}
