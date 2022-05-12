@@ -81,7 +81,7 @@ kubectl apply -f deploy/configurator.yaml
 Make sure the configurator pod is scheduled to the node in the Step 4.
 After all those steps Kubernetes cluster is ready to run SlurmJobs. 
 ```
-kubectl get nodes
+$ kubectl get nodes
 NAME                            STATUS   ROLES                  AGE    VERSION
 minikube                        Ready    control-plane,master   49d    v1.22.3
 slurm-minikube-cpu              Ready    agent                  131m   v1.13.1-vk-N/A
