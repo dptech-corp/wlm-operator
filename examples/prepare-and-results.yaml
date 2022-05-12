@@ -1,0 +1,28 @@
+apiVersion: wlm.sylabs.io/v1alpha1
+kind: SlurmJob
+metadata:
+  name: prepare-and-results
+spec:
+  batch: |
+    #!/bin/sh
+    #SBATCH --nodes=1
+    mkdir bar
+    cp inputs/foo.txt bar/output.txt
+    echo slurm >> bar/output.txt
+  nodeSelector:
+    kubernetes.io/hostname: slurm-minikube-cpu
+  prepare:
+    to: .
+    mount:
+      name: inputs
+      hostPath:
+        path: /home/docker/inputs
+        type: DirectoryOrCreate
+  results:
+    from: bar
+    mount:
+      name: outputs
+      hostPath:
+        path: /home/docker/outputs
+        type: DirectoryOrCreate
+
