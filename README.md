@@ -1,14 +1,8 @@
 # WLM-operator
 
-The singularity-cri and wlm-operator projects were created by Sylabs to explore interaction between the Kubernetes and HPC worlds. In 2020, rather than dilute our efforts over a large number of projects, we have focused on Singularity itself and our supporting services. We're also looking forward to introducing new features and technologies in 2021.
+The wlm-operator project is developed to explore interaction between the Kubernetes and HPC worlds.
 
-At this point we have archived the repositories to indicate that they aren't under active development or maintenance. We recognize there is still interest in singularity-cri and wlm-operator, and we'd like these projects to find a home within a community that can further develop and maintain them. The code is open-source under the Apache License 2.0, to be compatible with other projects in the k8s ecosystem.
-
-Please reach out to us via community@sylabs.io if you are interested in establishing a new home for the projects.
-
------
-
-[![CircleCI](https://circleci.com/gh/sylabs/wlm-operator.svg?style=svg&circle-token=7222176bc78c1ddf7ea4ea615d2e568334e7ec0a)](https://circleci.com/gh/sylabs/wlm-operator)
+---
 
 **WLM operator** is a Kubernetes operator implementation, capable of submitting and
 monitoring WLM jobs, while using all of Kubernetes features, such as smart scheduling and volumes.
@@ -44,29 +38,35 @@ Installation process is required to connect Kubernetes with Slurm cluster.
 *NOTE*: further described installation process for a single Slurm cluster,
 the same steps should be performed for each cluster to be connected.
 
-1. Create a new Kubernetes node with [Singularity-CRI](https://github.com/sylabs/singularity-cri) on the
-Slurm login host. Make sure you set up NoSchedule taint so that no random pod will be scheduled there.
-
-2. Create a new dedicated user on the Slurm login host. All submitted Slurm jobs will be executed on behalf
+1. Login the Slurm cluster as a user, all submitted Slurm jobs will be executed on behalf
 of that user. Make sure the user has execute permissions for the following Slurm binaries:`sbatch`,
 `scancel`, `sacct` and `scontol`.
 
-3. Clone the repo.
+2. Clone the repo.
 ```bash
 git clone https://github.com/dptech-corp/wlm-operator
 ```
 
-4. Build and start *red-box* – a gRPC proxy between Kubernetes and a Slurm cluster.
+3. Build and start *red-box* – a gRPC proxy between Kubernetes and a Slurm cluster.
 ```bash
 cd wlm-operator && make
 ```
-Use dedicated user from step 2 to run red-box, e.g. set up `User` in systemd red-box.service.
-By default red-box listens on `/var/run/syslurm/red-box.sock`, so you have to make sure the user has
-read and write permissions for `/var/run/syslurm`.
+Run `./bin/red-box` in the background.
+By default red-box listens on `/var/run/syslurm/red-box.sock`, you can specify the socket path by `-socket`, e.g.
+```
+./bin/red-box -socket /var/run/user/$(id -u)/syslurm/red-box.sock
+```
+
+4. Forward the red-box socket on the Slurm cluster
+to a local socket on a Kubernetes node through SSH
+```
+ssh -nNT -L /var/run/syslurm/red-box.sock:/var/run/syslurm/red-box.sock username@cluster-ip
+```
 
 5. Set up Slurm operator in Kubernetes.
 ```bash
 kubectl apply -f deploy/crds/slurm_v1alpha1_slurmjob.yaml
+kubectl apply -f deploy/crds/wlm_v1alpha1_wlmjob.yaml
 kubectl apply -f deploy/operator-rbac.yaml
 kubectl apply -f deploy/operator.yaml
 ```
@@ -78,115 +78,102 @@ introduces `SlurmJob` to Kubernetes. After that, Kubernetes controller for `Slur
 kubectl apply -f deploy/configurator.yaml
 ```
 
+Make sure the configurator pod is scheduled to the node in the Step 4.
 After all those steps Kubernetes cluster is ready to run SlurmJobs. 
+```
+kubectl get nodes
+NAME                            STATUS   ROLES                  AGE    VERSION
+minikube                        Ready    control-plane,master   49d    v1.22.3
+slurm-minikube-cpu              Ready    agent                  131m   v1.13.1-vk-N/A
+slurm-minikube-dplc-ai-v100x8   Ready    agent                  131m   v1.13.1-vk-N/A
+slurm-minikube-v100             Ready    agent                  131m   v1.13.1-vk-N/A
+```
 
 ## Usage
 
 The most convenient way to submit them is using YAML files, take a look at [basic examples](/examples).
 
-We will walk thought basic example how to submit jobs to Slurm in Vagrant.
-
 ```yaml
 apiVersion: wlm.sylabs.io/v1alpha1
 kind: SlurmJob
 metadata:
-  name: cow
+  name: prepare-and-results
 spec:
   batch: |
     #!/bin/sh
     #SBATCH --nodes=1
-    #SBATCH --output cow.out
-    srun singularity pull -U library://sylabsed/examples/lolcow
-    srun singularity run lolcow_latest.sif
-    srun rm lolcow_latest.sif
+    echo Hello
+    mkdir bar
+    cp inputs/foo.txt bar/output.txt
+    echo slurm >> bar/output.txt
   nodeSelector:
-    wlm.sylabs.io/containers: singularity
-  results:
-    from: cow.out
+    kubernetes.io/hostname: slurm-minikube-cpu
+  prepare:
+    to: .
     mount:
-      name: data
+      name: inputs
       hostPath:
-        path: /home/job-results
+        path: /home/docker/inputs
+        type: DirectoryOrCreate
+  results:
+    from: bar
+    mount:
+      name: outputs
+      hostPath:
+        path: /home/docker/outputs
         type: DirectoryOrCreate
 ```
 
-In the example above we will run lolcow Singularity container in Slurm and collect the results 
-to `/home/job-results` located on a k8s node where job has been scheduled. Generally, job results
+In the example above we will upload data in `/home/docker/inputs` located on a k8s node where job has been scheduled to Slurm, submit a Slurm job,
+and collect the results to `/home/docker/outputs` located on the k8s node. Generally, job results
 can be collected to any supported [k8s volume](https://kubernetes.io/docs/concepts/storage/volumes/).
 
 Slurm job specification will be processed by operator and a dummy pod will be scheduled in order to transfer job
 specification to a specific queue. That dummy pod will not have actual physical process under that hood, but instead 
-its specification will be used to schedule slurm job directly on a connected cluster. To collect results another pod
+its specification will be used to schedule slurm job directly on a connected cluster. To prepare data and collect results, another two pods
 will be created with UID and GID 1000 (default values), so you should make sure it has a write access to 
-a volume where you want to store the results (host directory `/home/job-results` in the example above).
+a volume where you want to store the results (host directory `/home/docker/outputs` in the example above).
 The UID and GID are inherited from virtual kubelet that spawns the pod, and virtual kubelet inherits them
 from configurator (see `runAsUser` in [configurator.yaml](./deploy/configurator.yaml)).
 
-After that you can submit cow job:
+After preparing the input data on the k8s node
+```
+$ ls /home/docker/inputs
+foo.txt
+```
+
+you can submit the job:
 ```bash
-$ kubectl apply -f examples/cow.yaml 
-slurmjob.wlm.sylabs.io "cow" created
+$ kubectl apply -f examples/prepare-and-results.yaml 
+slurmjob.wlm.sylabs.io "prepare-and-results" created
 
 $ kubectl get slurmjob
-NAME   AGE   STATUS
-cow    66s   Succeeded
-
+NAME                   AGE   STATUS
+prepare-and-results    66s   Succeeded
 
 $ kubectl get pod
-NAME                             READY   STATUS         RESTARTS   AGE
-cow-job                          0/1     Job finished   0          17s
-cow-job-collect                  0/1     Completed      0          9s
+NAME                                             READY   STATUS         RESTARTS   AGE
+prepare-and-results-job-prepare                  0/1     Completed      0          26s
+prepare-and-results-job                          0/1     Job finished   0          17s
+prepare-and-results-job-collect                  0/1     Completed      0          9s
 ```
 
-Validate job results appeared on a node:
+Validate job results appeared on the node:
 ```bash
-$ ls -la /home/job-results
-cow-job
-  
-$ ls /home/job-results/cow-job 
-cow.out
+$ ls /home/docker/outputs
+bar
 
-$ cat cow.out
-WARNING: No default remote in use, falling back to: https://library.sylabs.io
- _________________________________________
-/ It is right that he too should have his \
-| little chronicle, his memories, his     |
-| reason, and be able to recognize the    |
-| good in the bad, the bad in the worst,  |
-| and so grow gently old all down the     |
-| unchanging days and die one day like    |
-| any other day, only shorter.            |
-|                                         |
-\ -- Samuel Beckett, "Malone Dies"        /
- -----------------------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
+$ kubectl logs prepare-and-results-job
+Hello
 ```
 
 
-### Results collection
+### Data preparation and results collection
 
-Slurm operator supports result collection into [k8s volume](https://kubernetes.io/docs/concepts/storage/volumes/)
-so that a user won't need to have access Slurm cluster to analyze job results.
+Slurm operator supports file transfer between [k8s volume](https://kubernetes.io/docs/concepts/storage/volumes/) and Slurm cluster
+so that a user won't need to have access Slurm cluster manually.
 
-However, some configuration is required for this feature to work. More specifically, results can be collected
-located on a login host only (i.e. where `red-box` is running), while Slurm job can be scheduled on an arbitrary
-Slurm worker node. This means that some kind of a shared storage among Slurm nodes should be configured so that despite
-of a Slurm worker node chosen to run a job, results will appear on a login host as well. 
-_NOTE_: result collection is a network and IO consuming task, so collecting large files (e.g. 1Gb result of an
-ML job) may not be a great idea.
-
-Let's walk through basic configuration steps. Further assumed that file _cow.out_ from example above
-is collected. This file can be found on a Slurm worker node that is executing a job.
-More specifically, you'll find it in a folder, from which job was submitted (i.e. `red-box`'s working dir).
-Configuration for other results file will differ in shared paths only:
-
-	$RESULTS_DIR = red-box's working directory
-
-Share $RESULTS_DIR among all Slurm nodes, e.g set up nfs share for $RESULTS_DIR.
+_NOTE_: file transfer is a network and IO consuming task, so transfer large files (e.g. 1Gb of data) may not be a great idea.
 
 
 ## Configuring red-box

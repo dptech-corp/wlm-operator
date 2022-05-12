@@ -6,6 +6,7 @@ spec:
   batch: |
     #!/bin/sh
     #SBATCH --nodes=1
+    echo Hello
     mkdir bar
     cp inputs/foo.txt bar/output.txt
     echo slurm >> bar/output.txt
