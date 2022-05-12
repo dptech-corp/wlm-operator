@@ -17,8 +17,8 @@
 package v1alpha1
 
 import (
-	v1alpha1 "github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1"
-	"github.com/sylabs/wlm-operator/pkg/operator/client/clientset/versioned/scheme"
+	v1alpha1 "github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1"
+	"github.com/dptech-corp/wlm-operator/pkg/operator/client/clientset/versioned/scheme"
 	serializer "k8s.io/apimachinery/pkg/runtime/serializer"
 	rest "k8s.io/client-go/rest"
 )

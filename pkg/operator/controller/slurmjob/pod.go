@@ -15,10 +15,10 @@
 package slurmjob
 
 import (
-	"github.com/sylabs/wlm-operator/pkg/operator/controller"
+	"github.com/dptech-corp/wlm-operator/pkg/operator/controller"
 
 	"github.com/pkg/errors"
-	wlmv1alpha1 "github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1"
+	wlmv1alpha1 "github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )

@@ -19,7 +19,7 @@ import (
 	"os"
 
 	"github.com/golang/glog"
-	wlmv1alpha1 "github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1"
+	wlmv1alpha1 "github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"

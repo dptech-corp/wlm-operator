@@ -18,7 +18,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sylabs/wlm-operator/pkg/operator/controller"
+	"github.com/dptech-corp/wlm-operator/pkg/operator/controller"
 
 	"github.com/stretchr/testify/require"
 )

@@ -1,4 +1,4 @@
-module github.com/sylabs/wlm-operator
+module github.com/dptech-corp/wlm-operator
 
 go 1.11
 

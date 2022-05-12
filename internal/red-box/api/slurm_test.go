@@ -18,10 +18,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sylabs/wlm-operator/pkg/workload/api"
+	"github.com/dptech-corp/wlm-operator/pkg/workload/api"
 
 	"github.com/stretchr/testify/require"
-	"github.com/sylabs/wlm-operator/pkg/slurm"
+	"github.com/dptech-corp/wlm-operator/pkg/slurm"
 )
 
 func Test_mapSInfoToProtoInfo(t *testing.T) {

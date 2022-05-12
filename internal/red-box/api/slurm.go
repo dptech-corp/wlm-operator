@@ -29,8 +29,8 @@ import (
 	"github.com/golang/protobuf/ptypes/duration"
 	"github.com/golang/protobuf/ptypes/timestamp"
 	"github.com/pkg/errors"
-	"github.com/sylabs/wlm-operator/pkg/slurm"
-	"github.com/sylabs/wlm-operator/pkg/workload/api"
+	"github.com/dptech-corp/wlm-operator/pkg/slurm"
+	"github.com/dptech-corp/wlm-operator/pkg/workload/api"
 )
 
 const localFilePrefix = "local.file"

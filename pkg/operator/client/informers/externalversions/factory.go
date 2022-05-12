@@ -21,9 +21,9 @@ import (
 	sync "sync"
 	time "time"
 
-	versioned "github.com/sylabs/wlm-operator/pkg/operator/client/clientset/versioned"
-	internalinterfaces "github.com/sylabs/wlm-operator/pkg/operator/client/informers/externalversions/internalinterfaces"
-	wlm "github.com/sylabs/wlm-operator/pkg/operator/client/informers/externalversions/wlm"
+	versioned "github.com/dptech-corp/wlm-operator/pkg/operator/client/clientset/versioned"
+	internalinterfaces "github.com/dptech-corp/wlm-operator/pkg/operator/client/informers/externalversions/internalinterfaces"
+	wlm "github.com/dptech-corp/wlm-operator/pkg/operator/client/informers/externalversions/wlm"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"

@@ -19,10 +19,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/sylabs/wlm-operator/pkg/operator/controller"
+	"github.com/dptech-corp/wlm-operator/pkg/operator/controller"
 
 	"github.com/pkg/errors"
-	"github.com/sylabs/wlm-operator/pkg/slurm"
+	"github.com/dptech-corp/wlm-operator/pkg/slurm"
 )
 
 // extractBatchResources extracts resources that should be satisfied for a slurm

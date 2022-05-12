@@ -17,7 +17,7 @@
 package versioned
 
 import (
-	wlmv1alpha1 "github.com/sylabs/wlm-operator/pkg/operator/client/clientset/versioned/typed/wlm/v1alpha1"
+	wlmv1alpha1 "github.com/dptech-corp/wlm-operator/pkg/operator/client/clientset/versioned/typed/wlm/v1alpha1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"

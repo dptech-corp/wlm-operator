@@ -27,7 +27,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"github.com/sylabs/wlm-operator/pkg/workload/api"
+	"github.com/dptech-corp/wlm-operator/pkg/workload/api"
 	"google.golang.org/grpc"
 )
 

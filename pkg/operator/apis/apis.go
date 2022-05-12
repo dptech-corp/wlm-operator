@@ -15,7 +15,7 @@
 package apis
 
 import (
-	"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1"
+	"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 

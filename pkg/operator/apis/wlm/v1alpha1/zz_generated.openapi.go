@@ -27,15 +27,15 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults":         schema_operator_apis_wlm_v1alpha1_JobResults(ref),
-		"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SingularityOptions": schema_operator_apis_wlm_v1alpha1_SingularityOptions(ref),
-		"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJob":           schema_operator_apis_wlm_v1alpha1_SlurmJob(ref),
-		"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobSpec":       schema_operator_apis_wlm_v1alpha1_SlurmJobSpec(ref),
-		"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobStatus":     schema_operator_apis_wlm_v1alpha1_SlurmJobStatus(ref),
-		"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJob":             schema_operator_apis_wlm_v1alpha1_WlmJob(ref),
-		"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobSpec":         schema_operator_apis_wlm_v1alpha1_WlmJobSpec(ref),
-		"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobStatus":       schema_operator_apis_wlm_v1alpha1_WlmJobStatus(ref),
-		"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmResources":       schema_operator_apis_wlm_v1alpha1_WlmResources(ref),
+		"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults":         schema_operator_apis_wlm_v1alpha1_JobResults(ref),
+		"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SingularityOptions": schema_operator_apis_wlm_v1alpha1_SingularityOptions(ref),
+		"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJob":           schema_operator_apis_wlm_v1alpha1_SlurmJob(ref),
+		"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobSpec":       schema_operator_apis_wlm_v1alpha1_SlurmJobSpec(ref),
+		"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobStatus":     schema_operator_apis_wlm_v1alpha1_SlurmJobStatus(ref),
+		"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJob":             schema_operator_apis_wlm_v1alpha1_WlmJob(ref),
+		"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobSpec":         schema_operator_apis_wlm_v1alpha1_WlmJobSpec(ref),
+		"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobStatus":       schema_operator_apis_wlm_v1alpha1_WlmJobStatus(ref),
+		"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmResources":       schema_operator_apis_wlm_v1alpha1_WlmResources(ref),
 	}
 }
 
@@ -184,19 +184,19 @@ func schema_operator_apis_wlm_v1alpha1_SlurmJob(ref common.ReferenceCallback) co
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobSpec"),
+							Ref: ref("github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobStatus"),
+							Ref: ref("github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobStatus"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobSpec", "github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobSpec", "github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SlurmJobStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
 	}
 }
 
@@ -230,7 +230,7 @@ func schema_operator_apis_wlm_v1alpha1_SlurmJobSpec(ref common.ReferenceCallback
 					"results": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Results may be specified for an optional results collection step. When specified, after job is completed all results will be downloaded from Slurm cluster with respect to this configuration.",
-							Ref:         ref("github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults"),
+							Ref:         ref("github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults"),
 						},
 					},
 				},
@@ -238,7 +238,7 @@ func schema_operator_apis_wlm_v1alpha1_SlurmJobSpec(ref common.ReferenceCallback
 			},
 		},
 		Dependencies: []string{
-			"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults"},
+			"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults"},
 	}
 }
 
@@ -290,19 +290,19 @@ func schema_operator_apis_wlm_v1alpha1_WlmJob(ref common.ReferenceCallback) comm
 					},
 					"spec": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobSpec"),
+							Ref: ref("github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobSpec"),
 						},
 					},
 					"status": {
 						SchemaProps: spec.SchemaProps{
-							Ref: ref("github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobStatus"),
+							Ref: ref("github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobStatus"),
 						},
 					},
 				},
 			},
 		},
 		Dependencies: []string{
-			"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobSpec", "github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+			"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobSpec", "github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmJobStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
 	}
 }
 
@@ -322,13 +322,13 @@ func schema_operator_apis_wlm_v1alpha1_WlmJobSpec(ref common.ReferenceCallback) 
 					"options": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Options singularity run options.",
-							Ref:         ref("github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SingularityOptions"),
+							Ref:         ref("github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SingularityOptions"),
 						},
 					},
 					"resources": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Resources describes required resources for a job.",
-							Ref:         ref("github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmResources"),
+							Ref:         ref("github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmResources"),
 						},
 					},
 					"nodeSelector": {
@@ -348,7 +348,7 @@ func schema_operator_apis_wlm_v1alpha1_WlmJobSpec(ref common.ReferenceCallback) 
 					"results": {
 						SchemaProps: spec.SchemaProps{
 							Description: "Results may be specified for an optional results collection step. When specified, after job is completed all results will be downloaded from WLM cluster with respect to this configuration.",
-							Ref:         ref("github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults"),
+							Ref:         ref("github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults"),
 						},
 					},
 				},
@@ -356,7 +356,7 @@ func schema_operator_apis_wlm_v1alpha1_WlmJobSpec(ref common.ReferenceCallback) 
 			},
 		},
 		Dependencies: []string{
-			"github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults", "github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SingularityOptions", "github.com/sylabs/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmResources"},
+			"github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.JobResults", "github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.SingularityOptions", "github.com/dptech-corp/wlm-operator/pkg/operator/apis/wlm/v1alpha1.WlmResources"},
 	}
 }
 

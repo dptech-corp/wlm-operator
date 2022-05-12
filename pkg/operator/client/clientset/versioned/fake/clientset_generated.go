@@ -17,9 +17,9 @@
 package fake
 
 import (
-	clientset "github.com/sylabs/wlm-operator/pkg/operator/client/clientset/versioned"
-	wlmv1alpha1 "github.com/sylabs/wlm-operator/pkg/operator/client/clientset/versioned/typed/wlm/v1alpha1"
-	fakewlmv1alpha1 "github.com/sylabs/wlm-operator/pkg/operator/client/clientset/versioned/typed/wlm/v1alpha1/fake"
+	clientset "github.com/dptech-corp/wlm-operator/pkg/operator/client/clientset/versioned"
+	wlmv1alpha1 "github.com/dptech-corp/wlm-operator/pkg/operator/client/clientset/versioned/typed/wlm/v1alpha1"
+	fakewlmv1alpha1 "github.com/dptech-corp/wlm-operator/pkg/operator/client/clientset/versioned/typed/wlm/v1alpha1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"

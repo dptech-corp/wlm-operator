@@ -21,7 +21,7 @@ can automatically discover WLM partition resources(CPUs, memory, nodes, wall-tim
 to Kubernetes by labeling virtual node. Those node labels will be respected during Slurm job scheduling so that a
 job will appear only on a suitable partition with enough resources.
 
-Right now WLM-operator supports only SLURM clusters. But it's easy to add a support for another WLM. For it you need to implement a [GRPc server](https://github.com/sylabs/wlm-operator/blob/master/pkg/workload/api/workload.proto). You can use [current SLURM implementation](https://github.com/sylabs/wlm-operator/blob/master/internal/red-box/api/slurm.go) as a reference.
+Right now WLM-operator supports only SLURM clusters. But it's easy to add a support for another WLM. For it you need to implement a [GRPc server](https://github.com/dptech-corp/wlm-operator/blob/master/pkg/workload/api/workload.proto). You can use [current SLURM implementation](https://github.com/dptech-corp/wlm-operator/blob/master/internal/red-box/api/slurm.go) as a reference.
 
 <p align="center">
   <img style="width:100%;" height="600" src="./docs/integration.svg">
@@ -53,7 +53,7 @@ of that user. Make sure the user has execute permissions for the following Slurm
 
 3. Clone the repo.
 ```bash
-git clone https://github.com/sylabs/wlm-operator
+git clone https://github.com/dptech-corp/wlm-operator
 ```
 
 4. Build and start *red-box* – a gRPC proxy between Kubernetes and a Slurm cluster.
